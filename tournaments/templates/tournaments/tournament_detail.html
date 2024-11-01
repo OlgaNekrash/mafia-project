@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tournament.name|escape }}{% endblock %}
+
+{% block content %}
+<h1>{{ tournament.name|escape }}</h1>
+<p><strong>Дата:</strong> {{ tournament.date }}</p>
+<p>{{ tournament.description|escape }}</p>
+
+{% if tournament.image %}
+    <img src="{{ tournament.image.url }}" alt="{{ tournament.name }}" class="img-fluid">  <!-- Добавлен класс img-fluid -->
+{% else %}
+    <p>Фото турнира не загружено.</p>
+{% endif %}
+
+<h2>Зарегистрироваться на турнир</h2>
+{% if user.is_authenticated %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+    </form>
+{% else %}
+    <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>, чтобы участвовать в турнире.</p>
+{% endif %}
+
+<h2>Организатор турнира: <a href="{% url 'club_detail' tournament.club.pk %}">{{ club.name }}</a></h2>
+
+<h5>Участники турнира: </h5>
+<ul class="list-group">
+    {% for participant in participants %}
+        <li class="list-group-item" style="color: black; background-color: white;">{{ participant.full_name|escape }} ({{ participant.nickname|escape }}) - {{ participant.experience }} лет опыта</li>
+    {% empty %}
+        <li class="list-group-item" style="color: black; background-color: white;">Пока нет зарегистрированных участников.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+
+
+

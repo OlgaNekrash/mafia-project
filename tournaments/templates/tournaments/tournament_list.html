@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Турниры{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Турниры игры Мафия</h1>
+<div class="container">
+    <div class="row">
+        {% for tournament in tournaments %}
+            <div class="col-md-12 mb-4">  <!-- Используем 12 колонок для полного ширины -->
+                <div class="card bg-dark text-white"> <!-- Темный фон карточки и белый текст -->
+                    {% if tournament.image %}
+                        <img src="{{ tournament.image.url }}" class="card-img-top img-fluid" alt="{{ tournament.name|escape }}">  <!-- Изображение турнира -->
+                    {% else %}
+                        <img src="{% static 'images/tournament_placeholder.jpg' %}" class="card-img-top img-fluid" alt="{{ tournament.name|escape }}">  <!-- Заполнитель для изображения -->
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tournament.name|escape }}</h5> <!-- Название турнира -->
+                        <p class="card-text">{{ tournament.description|truncatewords:20|escape }}</p> <!-- Описание турнира -->
+                        <a href="{% url 'tournament_detail' tournament.pk %}" class="btn btn-primary">Подробнее</a> <!-- Кнопка для подробной информации -->
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center text-white">
+                <p>На данный момент нет доступных турниров.</p> <!-- Сообщение об отсутствии турниров -->
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

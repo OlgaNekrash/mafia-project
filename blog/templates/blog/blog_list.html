@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Список постов блога{% endblock %}
+
+{% block content %}
+<h1>Список постов блога</h1>
+<ul>
+    {% for post in blog_posts %}
+        <li>
+            <a href="{% url 'blog_detail' post.id %}">{{ post.title }}</a> - {{ post.created_at|date:"d M Y" }}
+        </li>
+    {% empty %}
+        <li>Нет доступных постов.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

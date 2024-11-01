@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div style="background-color: black; color: white; padding: 20px; border-radius: 8px;">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+
+    <h2>Оставить комментарий</h2>
+    <form method="post" style="margin-top: 20px;">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Введите ваш комментарий" rows="2" style="width: 100%;"></textarea>
+        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Отправить</button>
+    </form>
+
+    <h2>Комментарии</h2>
+    <ul style="padding-left: 0;">
+        {% for comment in comments %}
+            <li style="text-align: left; margin-bottom: 10px;">
+                <strong>{{ comment.author }}:</strong>
+                <span style="display: inline-block; margin-left: 10px;">{{ comment.content }}</span>
+            </li>
+        {% empty %}
+            <p>Комментариев пока нет.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

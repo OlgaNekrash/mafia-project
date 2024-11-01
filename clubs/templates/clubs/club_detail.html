@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ club.name }}{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h1>{{ club.name }}</h1>
+        {% if club.photo %}
+            <img src="{{ club.photo.url }}" alt="{{ club.name }}" class="img-fluid" style="width: 100%; height: auto; margin-bottom: 20px;">
+        {% endif %}
+        <p>{{ club.description }}</p>
+        <p>
+            <a href="{{ club.link }}" target="_blank" class="btn btn-primary">Перейти на сайт клуба</a>
+        </p>
+    </div>
+
+    <h4>Блоги, связанные с клубом</h4>
+    <ul>
+        {% for post in blog_posts %}
+            <li><a href="{% url 'blog_detail' post.id %}">{{ post.title }}</a></li>
+        {% empty %}
+            <p>Нет связанных блогов для этого клуба.</p>
+        {% endfor %}
+        </ul>
+
+    <h4>Турниры, организованные клубом</h4>
+    <ul>
+        {% for tournament in tournaments %}
+            <li>
+                <a href="{% url 'tournament_detail' tournament.pk %}">{{ tournament.name }}</a> — {{ tournament.date|date:"d M Y" }}
+            </li>
+        {% empty %}
+            <li>Турниров, организованных клубом, пока нет.</li>
+        {% endfor %}
+    </ul>
+    <h4>Игроки клуба</h4>
+    <ul>
+        {% for player in players %}
+            <li><a href="{% url 'player_detail' player.pk %}">{{ player.nickname }}</a></li>
+        {% empty %}
+            <li>В клубе нет игроков.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+

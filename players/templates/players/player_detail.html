@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ player.nickname }}{% endblock %}
+
+{% block content %}
+<h1>{{ player.nickname }}</h1>
+<p>Опыт: {{ player.experience }} лет</p>
+
+{% if player.photo %}
+    <img src="{{ player.photo.url }}" alt="{{ player.nickname }}" class="img-fluid">
+{% endif %}
+
+<h2>В каких клубах играет</h2>
+<ul style="list-style: none; padding: 0;">
+    {% for club in clubs %}
+        <li style="text-align: left;">
+            ❤️ {{ club.name }}
+        </li>
+    {% empty %}
+        <li>Клубы отсутствуют.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

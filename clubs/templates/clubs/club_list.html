@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Список клубов{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4">Список клубов</h1>
+    <div class="container">
+        <div class="row">
+            {% for club in clubs %}
+                <div class="col-md-4 mb-4"> <!-- Каждому клубу будет отведено 4 колонки -->
+                    <div class="card bg-dark text-white"> <!-- Фон карточки темный, текст белый -->
+                        {% if club.photo %}
+                            <img src="{{ club.photo.url }}" alt="{{ club.name }}" class="card-img-top"> <!-- Изображение клуба -->
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ club.name }}</h5> <!-- Название клуба -->
+                            <p class="card-text">{{ club.description|truncatewords:20 }}</p> <!-- Описание клуба -->
+                            <a href="{% url 'club_detail' club.id %}" class="btn btn-primary">Подробнее</a> <!-- Кнопка подробнее -->
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-white">
+                    <p>Нет доступных клубов.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+

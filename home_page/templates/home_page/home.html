@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8"> <!-- Основное содержимое слева -->
+        <h1>Добро пожаловать в игру Мафия!</h1>
+        <p>Краткая информация о игре...</p>
+
+        <div class="section">
+            <h2>Клубы</h2>
+            <img src="{% static 'images/bird1.jpg' %}" alt="Клубы" class="img-fluid">
+            <p>Описание клубов игры Мафия...</p>
+            <a href="{% url 'clubs' %}" class="btn btn-primary">Перейти к клубам</a>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Турниры</h2>
+            <img src="{% static 'images/bird2.jpg' %}" alt="Турниры" class="img-fluid">
+            <p>Описание турниров и событий...</p>
+            <a href="{% url 'tournament_list' %}" class="btn btn-primary">Перейти к турнирам</a>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Игроки</h2>
+            <img src="{% static 'images/dog2.jpg' %}" alt="Игроки" class="img-fluid">
+            <p>Описание игроков и их достижений...</p>
+            <a href="{% url 'players' %}" class="btn btn-primary">Перейти к игрокам</a>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Правила</h2>
+            <img src="{% static 'images/dog1.jpg' %}" alt="Правила" class="img-fluid">
+            <p>Краткое описание правил игры Мафия...</p>
+            <a href="{% url 'rules' %}" class="btn btn-primary">Перейти к правилам</a>
+        </div>
+    </div>
+
+    <!-- Отображение постов блога справа -->
+    <div class="col-md-4">
+        <h2>Последние посты блога</h2>
+        <ul class="list-group">
+            {% for post in blog_posts %}
+                <li class="list-group-item" style="background-color: rgba(255, 255, 255, 0.1);"> <!-- Легкий фон для элементов списка -->
+                    <h5 style="color: #ffcc00;">{{ post.title }}</h5> <!-- Яркий цвет заголовков -->
+                    <p style="color: #dcdcdc;">{{ post.content|truncatewords:20 }}</p>  <!-- Обрезка текста до 20 слов -->
+                    <small style="color: #dcdcdc;">Автор: {{ post.author }}</small><br>
+                    <small style="color: #dcdcdc;">Дата: {{ post.created_at|date:"d M Y" }}</small><br>
+                    <a href="{% url 'blog_detail' post.id %}" class="btn btn-primary mt-2">Читать далее</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item" style="background-color: rgba(255, 255, 255, 0.1);">Нет доступных постов.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Список игроков{% endblock %}
+
+{% block content %}
+    <h1>Список игроков</h1>
+    <form method="get" action=".">
+        <div class="form-group">
+            <input type="text" name="search" class="form-control" placeholder="Поиск по никнейму">
+        </div>
+        <button type="submit" class="btn btn-primary">Искать</button>
+        <a href="?sort=alphabetical" class="btn btn-secondary ml-2">Сортировать по алфавиту</a>
+    </form>
+
+    <div class="mt-4">
+        {% if players %}
+            <ul class="list-group">
+                {% for player in players %}
+                    <li class="list-group-item bg-dark text-white">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="{{ player.photo.url }}" alt="{{ player.nickname }}" class="img-fluid">
+                            </div>
+                            <div class="col-md-10">
+                                <strong>{{ player.nickname }}</strong> — Стаж: {{ player.experience }} лет
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Нет игроков, соответствующих критериям поиска.</p>
+        {% endif %}
+    </div>
+{% endblock %}
